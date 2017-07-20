@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Graphs</title>
+</head>
+
+<body>
+
+<p id="matrix"></p>
+<p id="vertices"></p>
+<p id="edges"></p>
+<p id="degree"></p>
+
+<script type="text/javascript">
+
+//////////////////////////////
+// Vertex class definition //
+////////////////////////////
+function vertex(name) {
+  this.name = name;
+}
+
+////////////////////////////
+// Edge class definition //
+//////////////////////////
+function edge(start, end) {
+  this.start = start;
+  this.end = end;
+}
+
+////////////////////////////////////////
+// Undirected Graph class definition //
+//////////////////////////////////////
+function Graph(vertices, edges) {
+  this.V = vertices;
+  this.E = edges;
+
+  if (this.V === undefined) {
+    this.V = [];
+  }
+  if (this.E === undefined) {
+    this.E = [];
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  // Adds vertex to graph from passed vertex name or vertex object //
+  //////////////////////////////////////////////////////////////////
+  this.addVertex = function(new_vert) {
+    var inV = false;
+    var v;
+    var i;
+    for (i = 0; i < this.V.length; i++) {
+      v = this.V[i];
+      if (new_vert == v.name) {
+        console.log("ERR: Vertex " + new_vert + " already in graph!");
+        inV = true;
+      }
+      else if (new_vert.name == v.name) {
+        console.log("ERR: Vertex " + new_vert.name + " already in graph!");
+        inV = true;
+      }
+    }
+    if ((inV === false) && (new_vert.name === undefined)) {
+      var vert = new vertex(new_vert);
+      this.V.push(vert);
+      return vert;
+    }
+    else if ((inV === false) && (new_vert.name !== undefined)) {
+      this.V.push(new_vert);
+      return new_vert;
+    }
+    else {
+      return -1;
+    }
+
+  };
+
+  //////////////////////////////////////////////////////////////
+  // Adds edge to graph from passed edge or pair of vertices //
+  ////////////////////////////////////////////////////////////
+  this.addEdge = function(vert1, vert2) {
+    // check if edge or vertices were passed
+    var newEdge;
+    if (arguments.length < 2) {
+      newEdge = vert1;
+      vert1 = newEdge.start.name;
+      vert2 = newEdge.end.name;
+    }
+
+    var vert1inV = false;
+    var vert2inV = false;
+    var start;
+    var end;
+
+    // check if vert1 and vert2 in V
+    // if not, add to V
+    var v;
+    var i;
+    for (i = 0; i < this.V.length; i++) {
+      v = this.V[i];
+      if ((vert1 == v.name) || (vert1.name == v.name)) {
+        vert1inV = true;
+        start = v;
+      }
+      if ((vert2 == v.name) || (vert2.name == v.name)) {
+        vert2inV = true;
+        end = v;
+      }
+    }
+
+    if (vert1inV === false) {
+      start = this.addVertex(vert1);
+    }
+    if (vert2inV === false) {
+      end = this.addVertex(vert2);
+    }
+
+    newEdge = new edge(start,end);
+
+    var inE = false;
+    var e;
+    var j;
+    for (j = 0; j < this.E.length; j++){
+      e = this.E[j];
+      if ((newEdge.start == e.start) && (newEdge.end == e.end)) {
+        console.log("ERR: Edge (" + newEdge.start.name + ", " + newEdge.end.name + ") " + "already in graph!");
+        inE = true;
+      }
+      else if ((newEdge.start == e.end) && (newEdge.end == e.start)) {
+        console.log("ERR: Edge (" + newEdge.end.name + ", " + newEdge.start.name + ") " + "already in graph!");
+        inE = true;
+      }
+    }
+
+    // if not in E, add to E
+    if (inE === false) {
+      this.E.push(newEdge);
+      return newEdge;
+    }
+    else {
+      return -1;
+    }
+  };
+
+  /////////////////////////////////////////////////////////
+  // Calculates Degree of all vertices to passed tag ID //
+  ///////////////////////////////////////////////////////
+  this.calculateDegree = function(vertex) {
+    var degrees = 0;
+    var v = this.V[this.V.indexOf(vertex)];
+    if (v === undefined) {
+      console.log("ERR: Vertex " + vertex + " not found!");
+      return undefined;
+    }
+    else {
+      var i;
+      for (i = 0; i < this.E.length; i++) {
+        var e = this.E[i];
+        if ((e.start.name == v.name) && (e.end.name == v.name)) {
+          degrees += 2;
+        }
+        else if ((e.start.name == v.name) || (e.end.name == v.name)) {
+          degrees += 1;
+        }
+      }
+    }
+    return degrees;
+  };
+
+  ////////////////////////////////////////////////////
+  // Prints all vertices of Graph to passed tag ID //
+  //////////////////////////////////////////////////
+  this.printVertices = function(myID) {
+    var output = "Vertices:" + "<br>";
+    if (this.V.length !== 0) {
+      var i;
+      for (i = 0; i < this.V.length; i++) {
+        output += this.V[i].name + "<br>";
+      }
+    }
+    else {
+      output += "No vertices in graph." + "<br>";
+    }
+    document.getElementById(myID).innerHTML = output;
+  };
+
+  /////////////////////////////////////////////////
+  // Prints all Edges of Graph to passed tag ID //
+  ///////////////////////////////////////////////
+  this.printEdges = function(myID) {
+    var output = "Edges: (start, end)" + "<br>";
+    if (this.E.length !== 0) {
+      var i;
+      for (i = 0; i < this.E.length; i++) {
+        output += this.E[i].start.name + ", " + this.E[i].end.name + "<br>";
+      }
+    }
+    else {
+      output += "No edges in graph." + "<br>";
+    }
+    document.getElementById(myID).innerHTML = output;
+  };
+
+  /////////////////////////////////////////////////////
+  // Prints Degree of all vertices to passed tag ID //
+  ///////////////////////////////////////////////////
+  this.printDegreeVertices = function(myID) {
+    var output = "Degree of Vertices: (vertex, degrees)" + "<br>";
+    if (this.V.length !== 0) {
+      var v;
+      var i;
+      for (i = 0; i < this.V.length; i++) {
+        v = this.V[i];
+        output += v.name + ", " + this.calculateDegree(v) + "<br>";
+      }
+    }
+    else {
+      output += "No vertices in graph." + "<br>";
+    }
+    document.getElementById(myID).innerHTML = output;
+  };
+
+  /////////////////////////////////////////////////////////////
+  // Prints matrix representation of Graph to passed tag ID //
+  ///////////////////////////////////////////////////////////
+  this.printMatrixForm = function(myID) {
+    var output = "Matrix Representation:" + "<br>";
+    if (this.V.length !== 0) {
+      output += "&nbsp;" + "&nbsp;";
+      var i;
+      for (i = 0; i < this.V.length; i++) {
+        output += "&nbsp;" + "&nbsp;" + this.V[i].name;
+      }
+      output += "<br>";
+      for (i = 0; i < this.V.length; i++) {
+        output += this.V[i].name + "&nbsp;" + "&nbsp;";
+        var j;
+        var newEdge;
+        for (j = 0; j < this.V.length; j++) {
+          newEdge = new edge(this.V[i],this.V[j]);
+          var inE = false;
+          var e;
+          var k;
+          for (k = 0; k < this.E.length; k++){
+            e = this.E[k];
+            if ((newEdge.start == e.start) && (newEdge.end == e.end)) {
+              inE = true;
+            }
+            else if ((newEdge.start == e.end) && (newEdge.end == e.start)) {
+              inE = true;
+            }
+          }
+          if (inE === true) {
+            output += "1" + "&nbsp;" + "&nbsp;";
+          }
+          else if (inE === false) {
+              output += "0" + "&nbsp;" + "&nbsp;";
+            }
+          }
+          output += "<br>";
+        }
+      }
+      else {
+        output += "No vertices in graph." + "<br>";
+      }
+    document.getElementById(myID).innerHTML = output;
+  };
+
+}
+
+var a = new vertex("a");
+var b = new vertex("b");
+var c = new vertex("c");
+var d = new vertex("d");
+
+var ab = new edge(a,b);
+var ac = new edge(a,c);
+var ad = new edge(a,d);
+var cd = new edge(c,d);
+var dd = new edge(d,d);
+
+
+var vertices = [a, b, c, d];
+var edges = [ab, ac, ad, cd];
+
+var G1 = new Graph(vertices,edges);
+
+G1.addVertex("e");
+G1.addVertex("a");
+G1.addVertex(b);
+
+G1.addEdge("a","c");
+G1.addEdge(b,c);
+G1.addEdge(d,c);
+G1.addEdge(dd);
+G1.addEdge(b,b);
+G1.addEdge("e","e");
+G1.addEdge("e",c);
+
+G1.printVertices("vertices");
+G1.printEdges("edges");
+G1.printDegreeVertices("degree");
+G1.printMatrixForm("matrix");
+
+</script>
+
+</body>
+
+</html>
