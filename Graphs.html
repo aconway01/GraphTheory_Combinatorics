@@ -30,10 +30,10 @@ function edge(start, end) {
   this.end = end;
 }
 
-/////////////////////////////
-// Graph class definition //
-///////////////////////////
-function Graph(vertices, edges) {
+////////////////////////////////////////
+// Undirected Graph class definition //
+//////////////////////////////////////
+function UndirectedGraph(vertices, edges) {
   this.V = vertices;
   this.E = edges;
 
@@ -77,10 +77,10 @@ function Graph(vertices, edges) {
 
   };
 
-  //////////////////////////////////////////////////////////////
-  // Adds edge to graph from passed edge or pair of vertices //
-  ////////////////////////////////////////////////////////////
-  this.addEdge = function(vert1, vert2) {
+  /////////////////////////////////////////////////////////////////////////
+  // Adds undirected edge to graph from passed edge or pair of vertices //
+  ///////////////////////////////////////////////////////////////////////
+  this.addUndirectedEdge = function(vert1, vert2) {
     // check if edge or vertices were passed
     var newEdge;
     if (arguments.length < 2) {
@@ -287,19 +287,19 @@ var dd = new edge(d,d);
 var vertices = [a, b, c, d];
 var edges = [ab, ac, ad, cd];
 
-var G1 = new Graph(vertices,edges);
+var G1 = new UndirectedGraph(vertices,edges);
 
 G1.addVertex("e");
 G1.addVertex("a");
 G1.addVertex(b);
 
-G1.addEdge("a","c");
-G1.addEdge(b,c);
-G1.addEdge(d,c);
-G1.addEdge(dd);
-G1.addEdge(b,b);
-G1.addEdge("e","e");
-G1.addEdge("e",c);
+G1.addUndirectedEdge("a","c");
+G1.addUndirectedEdge(b,c);
+G1.addUndirectedEdge(d,c);
+G1.addUndirectedEdge(dd);
+G1.addUndirectedEdge(b,b);
+G1.addUndirectedEdge("e","e");
+G1.addUndirectedEdge("e",c);
 
 G1.printVertices("vertices");
 G1.printEdges("edges");
