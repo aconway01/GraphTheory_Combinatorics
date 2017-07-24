@@ -144,10 +144,10 @@ function Graph(vertices, edges) {
     }
   };
 
-  /////////////////////////////////////////////////////////
-  // Calculates Degree of all vertices to passed tag ID //
-  ///////////////////////////////////////////////////////
-  this.calculateDegree = function(vertex) {
+  //////////////////////////////////////////////////////////////////////
+  // Calculates Degree of all vertices (undirected) to passed tag ID //
+  ////////////////////////////////////////////////////////////////////
+  this.calculateDegreeUndirected = function(vertex) {
     var degrees = 0;
     var v = this.V[this.V.indexOf(vertex)];
     if (v === undefined) {
@@ -168,6 +168,8 @@ function Graph(vertices, edges) {
     }
     return degrees;
   };
+
+
 
   ////////////////////////////////////////////////////
   // Prints all vertices of Graph to passed tag ID //
@@ -203,9 +205,9 @@ function Graph(vertices, edges) {
     document.getElementById(myID).innerHTML = output;
   };
 
-  /////////////////////////////////////////////////////
-  // Prints Degree of all vertices to passed tag ID //
-  ///////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////
+  // Prints Degree (undirected) of all vertices to passed tag ID //
+  ////////////////////////////////////////////////////////////////
   this.printDegreeVertices = function(myID) {
     var output = "Degree of Vertices: (vertex, degrees)" + "<br>";
     if (this.V.length !== 0) {
@@ -213,7 +215,7 @@ function Graph(vertices, edges) {
       var i;
       for (i = 0; i < this.V.length; i++) {
         v = this.V[i];
-        output += v.name + ", " + this.calculateDegree(v) + "<br>";
+        output += v.name + ", " + this.calculateDegreeUndirected(v) + "<br>";
       }
     }
     else {
