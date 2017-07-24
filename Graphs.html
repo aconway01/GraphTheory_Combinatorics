@@ -208,7 +208,7 @@ function Graph(vertices, edges) {
   //////////////////////////////////////////////////////////////////
   // Prints Degree (undirected) of all vertices to passed tag ID //
   ////////////////////////////////////////////////////////////////
-  this.printDegreeVertices = function(myID) {
+  this.printDegreeVerticesUndirected = function(myID) {
     var output = "Degree of Vertices: (vertex, degrees)" + "<br>";
     if (this.V.length !== 0) {
       var v;
@@ -224,10 +224,10 @@ function Graph(vertices, edges) {
     document.getElementById(myID).innerHTML = output;
   };
 
-  /////////////////////////////////////////////////////////////
-  // Prints matrix representation of Graph to passed tag ID //
-  ///////////////////////////////////////////////////////////
-  this.printMatrixForm = function(myID) {
+  //////////////////////////////////////////////////////////////////////////
+  // Prints matrix representation of (undirected) Graph to passed tag ID //
+  ////////////////////////////////////////////////////////////////////////
+  this.printMatrixFormUndirected = function(myID) {
     var output = "Matrix Representation:" + "<br>";
     if (this.V.length !== 0) {
       output += "&nbsp;" + "&nbsp;";
@@ -303,8 +303,8 @@ G1.addEdge("e",c);
 
 G1.printVertices("vertices");
 G1.printEdges("edges");
-G1.printDegreeVertices("degree");
-G1.printMatrixForm("matrix");
+G1.printDegreeVerticesUndirected("degree");
+G1.printMatrixFormUndirected("matrix");
 
 </script>
 
