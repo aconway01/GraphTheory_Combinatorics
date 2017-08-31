@@ -1,2 +1,2 @@
 # JavaScript_Graphs
-Algorithms using graph structures in JavaScript.
+Graph structures, combinatorics, and counting theory.
