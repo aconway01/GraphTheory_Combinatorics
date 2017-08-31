@@ -1,2 +1,2 @@
-# JavaScript_Graphs
+# GraphTheory_Combinatorics
 Graph structures, combinatorics, and counting theory.
