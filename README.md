@@ -1,2 +1,2 @@
 # GraphTheory_Combinatorics
-Graph structures, combinatorics, and counting theory.
+Graph structures and algorithms, combinatorics, and counting theory.
